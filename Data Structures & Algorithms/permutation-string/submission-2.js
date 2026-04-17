@@ -1,0 +1,50 @@
+class Solution {
+    /**
+     * @param {string} s1
+     * @param {string} s2
+     * @return {boolean}
+     */
+    checkInclusion(s1, s2) {
+        let countS1= new Array(26).fill(0);
+        let countS2 = new Array(26).fill(0);
+        if(s1.length>s2.length){
+            return false
+        }
+        for(let i = 0; i< s1.length; i++){
+            countS1[s1.charCodeAt(i) - 'a'.charCodeAt(0)] += 1;
+            countS2[s2.charCodeAt(i) - 'a'.charCodeAt(0)] += 1;
+        }
+        let matches = 0
+        for(let j = 0; j< 26; j++){
+            if(countS1[j] === countS2[j] ){
+                matches++
+            }
+        }
+        
+        let l = 0
+
+        for(let r = s1.length; r< s2.length; r++){
+            if(matches === 26){
+                return true;
+            }
+            let index = s2.charCodeAt(r) - 'a'.charCodeAt(0);
+            countS2[index]++;
+            if(countS1[index] === countS2[index]){
+                matches++;
+            }else if(countS1[index] + 1 === countS2[index]){
+                matches--
+            }
+
+            index = s2.charCodeAt(l) - 'a'.charCodeAt(0);
+            countS2[index]--;
+            if(countS1[index] === countS2[index]){
+                matches++;
+            }else if(countS1[index] - 1  === countS2[index]){
+                matches--
+            }
+            l++;
+        }
+        return matches === 26;
+    }
+
+}
